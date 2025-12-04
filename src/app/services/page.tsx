@@ -150,11 +150,13 @@ export default function ServicesPage() {
           {t("services.pricing_title")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { key: "starter", highlight: false },
-            { key: "growth", highlight: true },
-            { key: "enterprise", highlight: false },
-          ].map((tier, index) => (
+          {([
+            { key: "starter" as const, highlight: false },
+            { key: "growth" as const, highlight: true },
+            { key: "enterprise" as const, highlight: false },
+          ] as const).map((tier, index) => {
+            const tierData = messages[locale].services.pricing_tiers[tier.key]
+            return (
             <motion.div
               key={index}
               whileHover={{ y: -10 }}
@@ -177,15 +179,15 @@ export default function ServicesPage() {
                 )}
                 <CardHeader>
                   <CardTitle className="text-2xl">
-                    {t(`services.pricing_tiers.${tier.key}.name`)}
+                    {tierData.name}
                   </CardTitle>
                   <div className="text-3xl font-bold mt-4">
-                    {t(`services.pricing_tiers.${tier.key}.price`)}
+                    {tierData.price}
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1">
                   <ul className="space-y-4 mb-8">
-                    {messages[locale].services.pricing_tiers[tier.key].features.map(
+                    {tierData.features.map(
                       (feature, i) => (
                       <li key={i} className="flex items-center gap-2">
                         <Check className="h-5 w-5 text-primary" />
@@ -200,7 +202,8 @@ export default function ServicesPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
