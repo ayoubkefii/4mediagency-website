@@ -5,9 +5,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
+import { Menu, X, ArrowRight } from "lucide-react"
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion"
 
 import { CommandPalette } from "@/components/command-palette"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -25,6 +25,7 @@ const navItems = [
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
   const { scrollY } = useScroll()
   const { t } = useLanguage()
 
@@ -83,32 +84,83 @@ export function Navbar() {
         </div>
 
         {/* Mobile Nav */}
-        <Sheet>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="relative">
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <div className="flex justify-end mb-4 gap-2">
-              <CommandPalette />
-              <LanguageSwitcher />
-              <ModeToggle />
+          <SheetContent 
+            side="right" 
+            className="w-full sm:w-[400px] p-0 border-l border-border/50 bg-background/95 backdrop-blur-xl"
+          >
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between p-6 border-b border-border/50">
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                4mediagency
+              </span>
+              <SheetClose asChild>
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-muted">
+                  <X className="h-5 w-5" />
+                </Button>
+              </SheetClose>
             </div>
-            <nav className="flex flex-col gap-4 mt-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-lg font-medium hover:text-primary transition-colors"
+
+            {/* Mobile Menu Content */}
+            <div className="flex flex-col h-[calc(100vh-80px)]">
+              {/* Navigation Links */}
+              <nav className="flex-1 px-6 py-8">
+                <div className="space-y-2">
+                  {navItems.map((item, index) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between py-4 px-4 rounded-xl text-lg font-medium transition-all duration-200 group",
+                        pathname === item.href 
+                          ? "bg-primary/10 text-primary" 
+                          : "text-foreground hover:bg-muted hover:text-primary"
+                      )}
+                    >
+                      <span>{t(`nav.${item.key}`)}</span>
+                      <ArrowRight className={cn(
+                        "h-5 w-5 transition-transform duration-200",
+                        pathname === item.href 
+                          ? "text-primary" 
+                          : "text-muted-foreground group-hover:translate-x-1 group-hover:text-primary"
+                      )} />
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+
+              {/* Mobile Menu Footer */}
+              <div className="p-6 border-t border-border/50 space-y-6 bg-muted/30">
+                {/* Controls Row */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <CommandPalette />
+                    <ModeToggle />
+                  </div>
+                  <LanguageSwitcher />
+                </div>
+
+                {/* CTA Button */}
+                <Button 
+                  onClick={() => setIsOpen(false)}
+                  className="w-full bg-primary hover:bg-blue-600 text-white rounded-xl py-6 text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
                 >
-                  {t(`nav.${item.key}`)}
-                </Link>
-              ))}
-              <Button className="mt-4 bg-primary hover:bg-blue-600 w-full shadow-lg shadow-blue-500/20">
-                {t("nav.cta")}
-              </Button>
-            </nav>
+                  {t("nav.cta")}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+
+                {/* Social/Copyright */}
+                <p className="text-center text-xs text-muted-foreground">
+                  © 2024 4mediagency. All rights reserved.
+                </p>
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
