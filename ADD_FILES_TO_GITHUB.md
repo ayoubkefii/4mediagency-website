@@ -65,8 +65,8 @@ git add .
 git commit -m "Add complete project files and deployment guides"
 
 # Connect to your GitHub repository (replace YOUR_USERNAME and REPO_NAME)
-git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
-
+git remote add origin https://github.com/ayoubkefii/4mediagency-website.git
+ayoubkefii/4mediagency-website
 # Push to GitHub
 git branch -M main
 git push -u origin main

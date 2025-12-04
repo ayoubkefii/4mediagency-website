@@ -31,7 +31,8 @@ export default function Home() {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [particles, setParticles] = useState<{x: number, y: number, opacity: number, duration: number}[]>([])
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const isRTL = locale === "ar"
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -266,13 +267,10 @@ export default function Home() {
               key={row}
               className={`flex gap-20 items-center text-4xl font-black tracking-widest ${
                 // Uppercase looks bad for Arabic, keep it only for LTR
-                document?.documentElement.dir === "rtl" ? "" : "uppercase"
+                isRTL ? "" : "uppercase"
               }`}
               animate={{
-                x:
-                  document?.documentElement.dir === "rtl"
-                    ? ["0%", "100%"]
-                    : ["0%", "-100%"],
+                x: isRTL ? ["0%", "100%"] : ["0%", "-100%"],
               }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             >
