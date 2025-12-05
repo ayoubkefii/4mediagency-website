@@ -260,16 +260,16 @@ export default function Home() {
       </section>
 
       {/* Infinite Marquee */}
-      <div className="py-10 bg-black overflow-hidden flex whitespace-nowrap">
+      <div className="py-10 bg-primary overflow-hidden flex whitespace-nowrap" dir="ltr">
         <motion.div 
-          className="flex gap-20 items-center text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-800 dark:to-slate-600 uppercase tracking-widest opacity-50"
-          animate={{ x: ["0%", "-50%"] }}
+          className={`flex gap-20 items-center text-4xl md:text-6xl font-black text-white/20 tracking-widest ${isRTL ? '' : 'uppercase'}`}
+          animate={{ x: isRTL ? ["-50%", "0%"] : ["0%", "-50%"] }}
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
         >
           {t("home.marquee_items").map((item, i) => (
             <span key={i}>{item}</span>
           ))}
-           {t("home.marquee_items").map((item, i) => (
+          {t("home.marquee_items").map((item, i) => (
             <span key={`dup-${i}`}>{item}</span>
           ))}
         </motion.div>

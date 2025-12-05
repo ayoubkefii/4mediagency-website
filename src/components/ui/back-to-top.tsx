@@ -26,7 +26,7 @@ export function BackToTop() {
 
   return (
     <motion.div
-      className="fixed bottom-8 right-8 z-50"
+      className="fixed bottom-[140px] right-6 z-50"
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0 }}
       transition={{ duration: 0.2 }}

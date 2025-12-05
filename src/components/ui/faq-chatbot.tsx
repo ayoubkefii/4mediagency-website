@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageSquare, X, Send, Bot, Sparkles, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react"
+import { MessageSquare, X, Send, Bot, Sparkles, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useLanguage } from "@/i18n/LanguageProvider"
 
 type Message = {
   id: string
@@ -13,179 +14,186 @@ type Message = {
   suggestions?: string[]
 }
 
-// Comprehensive FAQ knowledge base
-const knowledgeBase = [
-  // Greetings
-  {
-    keywords: ["hello", "hi", "hey", "bonjour", "salut", "good morning", "good afternoon", "good evening"],
-    answer: "Hello! 👋 Welcome to 4mediagency! I'm your digital assistant. How can I help you today?",
-    suggestions: ["What services do you offer?", "How much does a website cost?", "Tell me about your team"]
-  },
-  {
-    keywords: ["thanks", "thank you", "merci", "appreciate", "helpful"],
-    answer: "You're welcome! 😊 Is there anything else I can help you with?",
-    suggestions: ["I have another question", "Contact a human agent", "No, that's all"]
-  },
-  
-  // Services
-  {
-    keywords: ["service", "offer", "do", "provide", "work", "help with"],
-    answer: "We offer a comprehensive range of digital services:\n\n🌐 **Web Development** - Custom websites, e-commerce, web apps\n🎨 **Branding** - Logo design, visual identity, brand strategy\n📱 **Mobile Apps** - iOS & Android development\n📈 **Digital Marketing** - SEO, social media, content marketing\n🔒 **Cybersecurity** - Security audits, protection solutions\n\nWhich service interests you most?",
-    suggestions: ["Tell me about web development", "What about branding?", "Digital marketing services"]
-  },
-  {
-    keywords: ["web", "website", "site", "develop", "create website", "build website"],
-    answer: "Our web development services include:\n\n✅ Custom responsive websites\n✅ E-commerce platforms (Shopify, WooCommerce)\n✅ Web applications (React, Next.js)\n✅ CMS development (WordPress, Strapi)\n✅ API development & integration\n✅ Website maintenance & support\n\nWe build fast, secure, and beautiful websites tailored to your brand!",
-    suggestions: ["How much for a website?", "How long does it take?", "Show me your portfolio"]
-  },
-  {
-    keywords: ["brand", "logo", "identity", "visual", "design logo"],
-    answer: "Our branding services help you stand out:\n\n🎨 **Logo Design** - Unique, memorable logos\n📋 **Brand Guidelines** - Colors, typography, usage rules\n🖼️ **Visual Identity** - Business cards, letterheads, social templates\n💡 **Brand Strategy** - Positioning, messaging, tone of voice\n\nA strong brand is the foundation of business success!",
-    suggestions: ["Branding package cost?", "How long for a logo?", "See brand examples"]
-  },
-  {
-    keywords: ["marketing", "seo", "social media", "advertis", "promote", "digital marketing"],
-    answer: "Our digital marketing services include:\n\n📊 **SEO** - Improve your Google rankings\n📱 **Social Media Management** - Content, engagement, growth\n💰 **Paid Advertising** - Google Ads, Facebook/Instagram Ads\n✍️ **Content Marketing** - Blog posts, videos, infographics\n📧 **Email Marketing** - Campaigns, automation, newsletters\n\nWe help you reach the right audience and grow your business!",
-    suggestions: ["SEO pricing?", "Social media packages", "Marketing strategy consultation"]
-  },
-  {
-    keywords: ["app", "mobile", "ios", "android", "application"],
-    answer: "Our mobile app development services:\n\n📱 **Native Apps** - iOS (Swift) & Android (Kotlin)\n⚡ **Cross-Platform** - React Native, Flutter\n🔗 **App Integration** - APIs, third-party services\n🛠️ **Maintenance** - Updates, bug fixes, improvements\n\nFrom concept to App Store, we build apps users love!",
-    suggestions: ["App development cost?", "How long to build an app?", "See app portfolio"]
-  },
-  
-  // Pricing
-  {
-    keywords: ["price", "cost", "pricing", "quote", "budget", "how much", "tarif", "devis", "expensive", "cheap", "affordable"],
-    answer: "Our pricing depends on project scope and requirements:\n\n💻 **Basic Website**: Starting at 2,000 TND\n🛒 **E-commerce Site**: Starting at 5,000 TND\n🎨 **Branding Package**: Starting at 1,500 TND\n📱 **Mobile App**: Starting at 8,000 TND\n📈 **Marketing Retainer**: Starting at 800 TND/month\n\nEvery project is unique! Contact us for a personalized quote tailored to your needs.",
-    suggestions: ["Get a free quote", "What's included?", "Payment options?"]
-  },
-  {
-    keywords: ["payment", "pay", "invoice", "installment"],
-    answer: "We offer flexible payment options:\n\n💳 **Bank Transfer** - Local and international\n💵 **Cash Payment** - At our office\n📅 **Payment Plans** - Split into milestones (50% upfront, 50% on delivery)\n🔄 **Monthly Retainers** - For ongoing services\n\nWe'll find a payment structure that works for you!",
-    suggestions: ["Start a project", "Get a quote", "Contact sales"]
-  },
-  
-  // Timeline
-  {
-    keywords: ["time", "long", "duration", "deadline", "delivery", "when", "how fast", "timeline"],
-    answer: "Typical project timelines:\n\n⏱️ **Basic Website**: 2-4 weeks\n⏱️ **E-commerce Site**: 4-8 weeks\n⏱️ **Branding Package**: 2-3 weeks\n⏱️ **Mobile App**: 8-16 weeks\n⏱️ **Logo Design**: 1-2 weeks\n\nTimelines vary based on complexity. We always agree on deadlines before starting!",
-    suggestions: ["Rush delivery available?", "Start a project", "Current availability?"]
-  },
-  
-  // Location & Contact
-  {
-    keywords: ["location", "where", "office", "address", "visit", "meet"],
-    answer: "📍 We're located in **Tunis, Tunisia**\n\nWhile we're based in Tunisia, we work with clients globally! We offer:\n\n🖥️ Video calls (Zoom, Google Meet)\n📧 Email communication\n💬 WhatsApp/phone support\n🤝 In-person meetings in Tunis\n\nDistance is never a barrier to great collaboration!",
-    suggestions: ["Schedule a meeting", "Contact information", "Working hours"]
-  },
-  {
-    keywords: ["contact", "email", "phone", "reach", "call", "talk"],
-    answer: "Here's how to reach us:\n\n📧 **Email**: contact@4mediagency.tn\n📱 **Phone**: +216 XX XXX XXX\n💬 **WhatsApp**: Click the green button!\n🌐 **Website**: www.4mediagency.tn\n\nWe typically respond within 24 hours!",
-    suggestions: ["Send an email", "Schedule a call", "WhatsApp us"]
-  },
-  {
-    keywords: ["hour", "available", "open", "working"],
-    answer: "Our working hours:\n\n🕘 **Monday - Friday**: 9:00 AM - 6:00 PM (Tunisia Time)\n🕘 **Saturday**: 9:00 AM - 1:00 PM\n🚫 **Sunday**: Closed\n\nWe monitor messages outside hours for urgent matters!",
-    suggestions: ["Contact us now", "Schedule a meeting", "Send a message"]
-  },
-  
-  // About
-  {
-    keywords: ["about", "who", "company", "team", "4media", "agency"],
-    answer: "**4mediagency** is a premium digital agency based in Tunisia! 🇹🇳\n\n🏆 5+ years of experience\n👥 Team of 10+ experts\n🌍 50+ clients served\n⭐ 98% client satisfaction\n\nWe blend creativity, technology, and strategy to help businesses thrive in the digital world!",
-    suggestions: ["Meet the team", "See our portfolio", "Our values"]
-  },
-  {
-    keywords: ["portfolio", "example", "work", "project", "case stud", "showcase"],
-    answer: "Check out our portfolio to see our best work! 🎨\n\nWe've worked with:\n• E-commerce brands\n• Tech startups\n• Restaurants & hospitality\n• Real estate companies\n• Healthcare providers\n\n👉 Visit our Portfolio page to see detailed case studies!",
-    suggestions: ["View portfolio", "Client testimonials", "Industries we serve"]
-  },
-  {
-    keywords: ["testimonial", "review", "client", "feedback", "rating"],
-    answer: "Here's what our clients say:\n\n⭐⭐⭐⭐⭐\n\"4media transformed our digital presence. The ROI has been incredible!\" - TechCorp CEO\n\n⭐⭐⭐⭐⭐\n\"Professional, creative, and truly understand the market.\" - Marketing Director\n\n⭐⭐⭐⭐⭐\n\"Delivered beyond our expectations!\" - Startup Founder",
-    suggestions: ["Start your project", "Get a free consultation", "Contact us"]
-  },
-  
-  // Process
-  {
-    keywords: ["process", "start", "begin", "how to", "step", "procedure", "work with"],
-    answer: "Our simple 5-step process:\n\n1️⃣ **Discovery** - We learn about your business & goals\n2️⃣ **Strategy** - We create a tailored plan\n3️⃣ **Design** - We craft beautiful visuals\n4️⃣ **Development** - We build your solution\n5️⃣ **Launch** - We deploy & support you\n\nReady to start? Let's schedule a free consultation!",
-    suggestions: ["Book a consultation", "Get started", "What do I need to prepare?"]
-  },
-  {
-    keywords: ["consultation", "meeting", "discuss", "free"],
-    answer: "Yes! We offer a **FREE 30-minute consultation** to:\n\n✅ Understand your needs\n✅ Discuss your goals\n✅ Propose solutions\n✅ Provide a quote\n\nNo obligations - just a friendly chat about your project!",
-    suggestions: ["Book consultation now", "Contact information", "What to prepare"]
-  },
-  
-  // Technical
-  {
-    keywords: ["technolog", "stack", "framework", "language", "tool"],
-    answer: "We use modern technologies:\n\n**Frontend**: React, Next.js, Vue.js, Tailwind CSS\n**Backend**: Node.js, Python, PHP\n**Mobile**: React Native, Flutter, Swift, Kotlin\n**CMS**: WordPress, Strapi, Sanity\n**Cloud**: AWS, Vercel, Google Cloud\n\nWe choose the best tech for your specific needs!",
-    suggestions: ["Which tech for my project?", "See our portfolio", "Technical consultation"]
-  },
-  {
-    keywords: ["host", "domain", "server", "maintain"],
-    answer: "We offer complete hosting solutions:\n\n🌐 **Domain Registration** - We help secure your domain\n☁️ **Web Hosting** - Fast, secure servers\n🔄 **Maintenance** - Updates, backups, monitoring\n🔒 **SSL Certificates** - Free HTTPS security\n📊 **Analytics Setup** - Track your performance\n\nPackages start at 50 TND/month!",
-    suggestions: ["Hosting pricing", "Maintenance plans", "Domain help"]
-  },
-  
-  // Support
-  {
-    keywords: ["support", "help", "issue", "problem", "bug", "fix"],
-    answer: "We provide ongoing support:\n\n🆘 **Technical Support** - Bug fixes, troubleshooting\n📞 **Priority Response** - Within 24 hours\n🔄 **Regular Updates** - Security & feature updates\n📚 **Training** - Learn to manage your site\n\nSupport plans start at 200 TND/month!",
-    suggestions: ["Support plans", "Report an issue", "Training options"]
-  },
-  
-  // Languages
-  {
-    keywords: ["language", "english", "french", "arabic", "speak"],
-    answer: "Our team speaks multiple languages:\n\n🇬🇧 **English** - Fluent\n🇫🇷 **French** - Fluent\n🇹🇳 **Arabic** - Native\n\nWe communicate in whichever language you prefer!",
-    suggestions: ["Contact in French", "Contact in Arabic", "Start a project"]
-  },
-  
-  // Comparison/Competition
-  {
-    keywords: ["why", "different", "better", "choose", "vs", "competitor"],
-    answer: "Why choose 4mediagency?\n\n✨ **Local Expertise** - We understand the Tunisian market\n💡 **Custom Solutions** - No templates, everything tailored\n🤝 **Personal Service** - Direct access to your team\n💰 **Fair Pricing** - Quality without breaking the bank\n🏆 **Proven Results** - 98% client satisfaction\n\nWe're not just vendors - we're your digital partners!",
-    suggestions: ["See client results", "Book a call", "View portfolio"]
-  },
-  
-  // Fallbacks
-  {
-    keywords: ["human", "agent", "person", "real", "speak to someone"],
-    answer: "Of course! You can reach a human team member:\n\n📧 Email: contact@4mediagency.tn\n📱 WhatsApp: Click the green button\n📞 Phone: +216 XX XXX XXX\n\nOr fill out our contact form and we'll get back to you within 24 hours!",
-    suggestions: ["Go to contact page", "WhatsApp us", "Send email"]
-  },
-  {
-    keywords: ["bye", "goodbye", "later", "see you"],
-    answer: "Goodbye! 👋 Thanks for chatting with us. Feel free to come back anytime you have questions. Have a great day! 🌟",
-    suggestions: ["Start new conversation", "Contact us", "View services"]
-  }
-]
-
-// Quick suggestion buttons for new conversations
-const initialSuggestions = [
-  "What services do you offer?",
-  "How much does a website cost?",
-  "Tell me about 4mediagency",
-  "I want to start a project"
-]
-
 export function FAQChatbot() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([
-    { 
-      id: "1", 
-      role: "bot", 
-      content: "Hello! 👋 I'm the 4mediagency AI assistant. I can help you with information about our services, pricing, process, and more!\n\nWhat would you like to know?",
-      suggestions: initialSuggestions
+  const { t, locale } = useLanguage()
+  const isRTL = locale === "ar"
+  
+  // Build knowledge base dynamically based on current language
+  const knowledgeBase = useMemo(() => [
+    // Greetings
+    {
+      keywords: ["hello", "hi", "hey", "bonjour", "salut", "good morning", "good afternoon", "good evening", "مرحبا", "أهلا", "السلام عليكم"],
+      answer: t("chatbot.answers.greeting"),
+      suggestions: [t("chatbot.suggestions.services"), t("chatbot.suggestions.pricing"), t("chatbot.suggestions.team")]
+    },
+    {
+      keywords: ["thanks", "thank you", "merci", "appreciate", "helpful", "شكرا", "شكراً"],
+      answer: t("chatbot.answers.thanks"),
+      suggestions: [t("chatbot.suggestions.another_question"), t("chatbot.suggestions.contact_human"), t("chatbot.suggestions.no_thanks")]
+    },
+    
+    // Services
+    {
+      keywords: ["service", "offer", "do", "provide", "work", "help with", "خدم", "تقدم", "عمل"],
+      answer: t("chatbot.answers.services"),
+      suggestions: [t("chatbot.suggestions.web_dev"), t("chatbot.suggestions.branding"), t("chatbot.suggestions.marketing")]
+    },
+    {
+      keywords: ["web", "website", "site", "develop", "create website", "build website", "موقع", "ويب", "تطوير"],
+      answer: t("chatbot.answers.web"),
+      suggestions: [t("chatbot.suggestions.pricing"), t("chatbot.suggestions.rush"), t("chatbot.suggestions.portfolio")]
+    },
+    {
+      keywords: ["brand", "logo", "identity", "visual", "design logo", "شعار", "هوية", "علامة تجارية"],
+      answer: t("chatbot.answers.brand"),
+      suggestions: [t("chatbot.suggestions.pricing"), t("chatbot.suggestions.rush"), t("chatbot.suggestions.portfolio")]
+    },
+    {
+      keywords: ["marketing", "seo", "social media", "advertis", "promote", "digital marketing", "تسويق", "إعلان"],
+      answer: t("chatbot.answers.marketing"),
+      suggestions: [t("chatbot.suggestions.pricing"), t("chatbot.suggestions.consultation"), t("chatbot.suggestions.portfolio")]
+    },
+    {
+      keywords: ["app", "mobile", "ios", "android", "application", "تطبيق", "جوال", "موبايل"],
+      answer: t("chatbot.answers.app"),
+      suggestions: [t("chatbot.suggestions.pricing"), t("chatbot.suggestions.rush"), t("chatbot.suggestions.portfolio")]
+    },
+    
+    // Pricing
+    {
+      keywords: ["price", "cost", "pricing", "quote", "budget", "how much", "tarif", "devis", "expensive", "cheap", "affordable", "سعر", "تكلفة", "كم"],
+      answer: t("chatbot.answers.pricing"),
+      suggestions: [t("chatbot.suggestions.quote"), t("chatbot.suggestions.included"), t("chatbot.suggestions.payment")]
+    },
+    {
+      keywords: ["payment", "pay", "invoice", "installment", "دفع", "فاتورة"],
+      answer: t("chatbot.answers.payment"),
+      suggestions: [t("chatbot.suggestions.project"), t("chatbot.suggestions.quote"), t("chatbot.suggestions.contact_info")]
+    },
+    
+    // Timeline
+    {
+      keywords: ["time", "long", "duration", "deadline", "delivery", "when", "how fast", "timeline", "وقت", "مدة", "متى"],
+      answer: t("chatbot.answers.timeline"),
+      suggestions: [t("chatbot.suggestions.rush"), t("chatbot.suggestions.project"), t("chatbot.suggestions.availability")]
+    },
+    
+    // Location & Contact
+    {
+      keywords: ["location", "where", "office", "address", "visit", "meet", "موقع", "أين", "مكتب", "عنوان"],
+      answer: t("chatbot.answers.location"),
+      suggestions: [t("chatbot.suggestions.schedule"), t("chatbot.suggestions.contact_info"), t("chatbot.suggestions.hours")]
+    },
+    {
+      keywords: ["contact", "email", "phone", "reach", "call", "talk", "اتصال", "بريد", "هاتف", "تواصل"],
+      answer: t("chatbot.answers.contact"),
+      suggestions: [t("chatbot.suggestions.email"), t("chatbot.suggestions.schedule"), t("chatbot.suggestions.whatsapp")]
+    },
+    {
+      keywords: ["hour", "available", "open", "working", "ساعات", "متاح", "مفتوح"],
+      answer: t("chatbot.answers.hours"),
+      suggestions: [t("chatbot.suggestions.contact_info"), t("chatbot.suggestions.schedule"), t("chatbot.suggestions.email")]
+    },
+    
+    // About
+    {
+      keywords: ["about", "who", "company", "team", "4media", "agency", "عن", "من", "شركة", "فريق", "وكالة"],
+      answer: t("chatbot.answers.about"),
+      suggestions: [t("chatbot.suggestions.team"), t("chatbot.suggestions.portfolio"), t("chatbot.suggestions.values")]
+    },
+    {
+      keywords: ["portfolio", "example", "work", "project", "case stud", "showcase", "أعمال", "مشاريع", "محفظة"],
+      answer: t("chatbot.answers.portfolio"),
+      suggestions: [t("chatbot.suggestions.portfolio"), t("chatbot.suggestions.testimonials"), t("chatbot.suggestions.industries")]
+    },
+    {
+      keywords: ["testimonial", "review", "client", "feedback", "rating", "آراء", "تقييم", "عملاء"],
+      answer: t("chatbot.answers.testimonials"),
+      suggestions: [t("chatbot.suggestions.project"), t("chatbot.suggestions.consultation"), t("chatbot.suggestions.contact_info")]
+    },
+    
+    // Process
+    {
+      keywords: ["process", "start", "begin", "how to", "step", "procedure", "work with", "عملية", "بدء", "خطوات", "كيف"],
+      answer: t("chatbot.answers.process"),
+      suggestions: [t("chatbot.suggestions.consultation"), t("chatbot.suggestions.start"), t("chatbot.suggestions.prepare")]
+    },
+    {
+      keywords: ["consultation", "meeting", "discuss", "free", "استشارة", "اجتماع", "مجاني"],
+      answer: t("chatbot.answers.consultation"),
+      suggestions: [t("chatbot.suggestions.consultation"), t("chatbot.suggestions.contact_info"), t("chatbot.suggestions.prepare")]
+    },
+    
+    // Technical
+    {
+      keywords: ["technolog", "stack", "framework", "language", "tool", "تقنية", "أدوات"],
+      answer: t("chatbot.answers.tech"),
+      suggestions: [t("chatbot.suggestions.tech"), t("chatbot.suggestions.portfolio"), t("chatbot.suggestions.consultation")]
+    },
+    {
+      keywords: ["host", "domain", "server", "maintain", "استضافة", "نطاق", "سيرفر"],
+      answer: t("chatbot.answers.hosting"),
+      suggestions: [t("chatbot.suggestions.hosting"), t("chatbot.suggestions.maintenance"), t("chatbot.suggestions.domain")]
+    },
+    
+    // Support
+    {
+      keywords: ["support", "help", "issue", "problem", "bug", "fix", "دعم", "مساعدة", "مشكلة"],
+      answer: t("chatbot.answers.support"),
+      suggestions: [t("chatbot.suggestions.support_plans"), t("chatbot.suggestions.report_issue"), t("chatbot.suggestions.training")]
+    },
+    
+    // Languages
+    {
+      keywords: ["language", "english", "french", "arabic", "speak", "لغة", "إنجليزي", "فرنسي", "عربي"],
+      answer: t("chatbot.answers.languages"),
+      suggestions: [t("chatbot.suggestions.french"), t("chatbot.suggestions.arabic"), t("chatbot.suggestions.project")]
+    },
+    
+    // Comparison/Competition
+    {
+      keywords: ["why", "different", "better", "choose", "vs", "competitor", "لماذا", "أفضل", "مختلف"],
+      answer: t("chatbot.answers.why_us"),
+      suggestions: [t("chatbot.suggestions.results"), t("chatbot.suggestions.call"), t("chatbot.suggestions.portfolio")]
+    },
+    
+    // Fallbacks
+    {
+      keywords: ["human", "agent", "person", "real", "speak to someone", "موظف", "شخص", "حقيقي"],
+      answer: t("chatbot.answers.human"),
+      suggestions: [t("chatbot.suggestions.contact_page"), t("chatbot.suggestions.whatsapp"), t("chatbot.suggestions.email")]
+    },
+    {
+      keywords: ["bye", "goodbye", "later", "see you", "مع السلامة", "وداعا"],
+      answer: t("chatbot.answers.bye"),
+      suggestions: [t("chatbot.suggestions.new_conversation"), t("chatbot.suggestions.contact_info"), t("chatbot.suggestions.view_services")]
     }
-  ])
+  ], [t])
+
+  const initialSuggestions = useMemo(() => [
+    t("chatbot.suggestions.services"),
+    t("chatbot.suggestions.pricing"),
+    t("chatbot.suggestions.about"),
+    t("chatbot.suggestions.project")
+  ], [t])
+
+  const getInitialMessage = (): Message => ({
+    id: "1",
+    role: "bot",
+    content: t("chatbot.welcome"),
+    suggestions: initialSuggestions
+  })
+
+  const [messages, setMessages] = useState<Message[]>([getInitialMessage()])
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Update initial message when language changes
+  useEffect(() => {
+    setMessages([getInitialMessage()])
+  }, [locale])
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -203,7 +211,7 @@ export function FAQChatbot() {
     for (const entry of knowledgeBase) {
       let score = 0
       for (const keyword of entry.keywords) {
-        if (lowerInput.includes(keyword)) {
+        if (lowerInput.includes(keyword.toLowerCase())) {
           // Longer keyword matches get higher scores
           score += keyword.length
         }
@@ -221,8 +229,8 @@ export function FAQChatbot() {
     
     // Default response
     return {
-      answer: "I'm not sure I understand that question. 🤔\n\nI can help you with:\n• Our services (web, branding, marketing)\n• Pricing and quotes\n• Our process and timeline\n• Contact information\n\nOr would you like to speak with a human agent?",
-      suggestions: ["What services do you offer?", "Get a quote", "Contact human agent"]
+      answer: t("chatbot.answers.fallback"),
+      suggestions: [t("chatbot.suggestions.services"), t("chatbot.suggestions.quote"), t("chatbot.suggestions.contact_human")]
     }
   }
 
@@ -257,14 +265,7 @@ export function FAQChatbot() {
   }
 
   const handleReset = () => {
-    setMessages([
-      { 
-        id: "1", 
-        role: "bot", 
-        content: "Hello! 👋 I'm the 4mediagency AI assistant. I can help you with information about our services, pricing, process, and more!\n\nWhat would you like to know?",
-        suggestions: initialSuggestions
-      }
-    ])
+    setMessages([getInitialMessage()])
   }
 
   return (
@@ -296,18 +297,19 @@ export function FAQChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-6 right-6 z-50 w-[380px] md:w-[420px] h-[600px] bg-background border border-border rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+            dir={isRTL ? "rtl" : "ltr"}
           >
             {/* Header */}
             <div className="p-4 bg-gradient-to-r from-primary to-blue-600 text-white flex justify-between items-center">
-              <div className="flex items-center gap-3">
+              <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                   <Sparkles className="w-5 h-5" />
                 </div>
-                <div>
+                <div className={isRTL ? 'text-right' : ''}>
                   <span className="font-bold block">4media Assistant</span>
                   <span className="text-xs text-white/80 flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    Online • Typically replies instantly
+                    {t("chatbot.online_status")}
                   </span>
                 </div>
               </div>
@@ -317,7 +319,7 @@ export function FAQChatbot() {
                   size="icon" 
                   onClick={handleReset} 
                   className="hover:bg-white/20 text-white h-8 w-8"
-                  title="Start new conversation"
+                  title={t("chatbot.suggestions.new_conversation")}
                 >
                   <RotateCcw className="w-4 h-4" />
                 </Button>
@@ -346,15 +348,15 @@ export function FAQChatbot() {
                 >
                   <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                     {msg.role === "bot" && (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center mr-2 shrink-0">
+                      <div className={`w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center ${isRTL ? 'ml-2' : 'mr-2'} shrink-0`}>
                         <Bot className="w-4 h-4 text-white" />
                       </div>
                     )}
                     <div
                       className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed ${
                         msg.role === "user"
-                          ? "bg-gradient-to-br from-primary to-blue-600 text-white rounded-br-md"
-                          : "bg-white dark:bg-slate-800 text-foreground shadow-sm border border-border/50 rounded-bl-md"
+                          ? `bg-gradient-to-br from-primary to-blue-600 text-white ${isRTL ? 'rounded-bl-md' : 'rounded-br-md'}`
+                          : `bg-white dark:bg-slate-800 text-foreground shadow-sm border border-border/50 ${isRTL ? 'rounded-br-md' : 'rounded-bl-md'}`
                       }`}
                     >
                       <div className="whitespace-pre-line">{msg.content}</div>
@@ -367,7 +369,7 @@ export function FAQChatbot() {
                       initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="mt-3 ml-10 flex flex-wrap gap-2"
+                      className={`mt-3 ${isRTL ? 'mr-10' : 'ml-10'} flex flex-wrap gap-2`}
                     >
                       {msg.suggestions.map((suggestion, i) => (
                         <button
@@ -390,10 +392,10 @@ export function FAQChatbot() {
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center mr-2 shrink-0">
+                  <div className={`w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center ${isRTL ? 'ml-2' : 'mr-2'} shrink-0`}>
                     <Bot className="w-4 h-4 text-white" />
                   </div>
-                  <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-md shadow-sm border border-border/50 flex items-center gap-1.5">
+                  <div className={`bg-white dark:bg-slate-800 p-4 rounded-2xl ${isRTL ? 'rounded-br-md' : 'rounded-bl-md'} shadow-sm border border-border/50 flex items-center gap-1.5`}>
                     <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
                     <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -414,9 +416,10 @@ export function FAQChatbot() {
                 <Input
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Type your message..."
+                  placeholder={t("chatbot.placeholder")}
                   className="rounded-full border-border/50 focus:border-primary"
                   disabled={isTyping}
+                  dir={isRTL ? "rtl" : "ltr"}
                 />
                 <Button 
                   type="submit" 
@@ -424,11 +427,11 @@ export function FAQChatbot() {
                   className="rounded-full shrink-0 bg-gradient-to-br from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90" 
                   disabled={!inputValue.trim() || isTyping}
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                 </Button>
               </form>
               <p className="text-[10px] text-center text-muted-foreground/60 mt-2">
-                Powered by 4mediagency AI • Not a real person
+                {t("chatbot.powered_by")}
               </p>
             </div>
           </motion.div>
