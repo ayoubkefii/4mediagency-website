@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
@@ -196,9 +197,11 @@ export default function ServicesPage() {
                       ),
                     )}
                   </ul>
-                  <Button className={`w-full ${tier.highlight ? 'bg-primary hover:bg-blue-600' : 'bg-secondary hover:bg-orange-600'}`}>
-                    {t("services.pricing_cta")}
-                  </Button>
+                  <Link href="/contact">
+                    <Button className={`w-full ${tier.highlight ? 'bg-primary hover:bg-blue-600' : 'bg-secondary hover:bg-orange-600'}`}>
+                      {t("services.pricing_cta")}
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </motion.div>

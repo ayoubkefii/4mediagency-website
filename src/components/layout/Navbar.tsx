@@ -78,9 +78,11 @@ export function Navbar() {
           <CommandPalette />
           <LanguageSwitcher />
           <ModeToggle />
-          <Button className="bg-primary hover:bg-blue-600 text-white rounded-full px-6 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all hover:scale-105 active:scale-95">
-            {t("nav.cta")}
-          </Button>
+          <Link href="/contact">
+            <Button className="bg-primary hover:bg-blue-600 text-white rounded-full px-6 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all hover:scale-105 active:scale-95">
+              {t("nav.cta")}
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Nav Trigger */}
@@ -203,14 +205,15 @@ export function Navbar() {
                 </div>
 
                 {/* CTA Button */}
-                <Button 
-                  onClick={() => setIsOpen(false)}
-                  className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white rounded-xl text-sm font-semibold shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
-                >
-                  <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-                  {t("nav.cta")}
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                  <Button 
+                    className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white rounded-xl text-sm font-semibold shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+                  >
+                    <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+                    {t("nav.cta")}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
 
                 {/* Copyright */}
                 <p className="text-center text-[11px] text-muted-foreground/60">

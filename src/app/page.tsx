@@ -147,13 +147,17 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-6 w-full justify-center items-center pt-8"
               variants={fadeInUp}
             >
-              <Button className="text-lg px-10 py-8 bg-primary hover:bg-blue-600 rounded-full shadow-[0_0_40px_-10px_rgba(14,165,233,0.5)] hover:shadow-[0_0_60px_-10px_rgba(14,165,233,0.7)] transition-all hover:scale-105 group">
-                <span className="mr-2">{t("home.hero_primary_cta")}</span>
-                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-10 py-8 rounded-full border-white/10 hover:bg-white/5 hover:border-primary/50 transition-all hover:scale-105 backdrop-blur-sm">
-                {t("home.hero_secondary_cta")}
-              </Button>
+              <Link href="/contact">
+                <Button className="text-lg px-10 py-8 bg-primary hover:bg-blue-600 rounded-full shadow-[0_0_40px_-10px_rgba(14,165,233,0.5)] hover:shadow-[0_0_60px_-10px_rgba(14,165,233,0.7)] transition-all hover:scale-105 group">
+                  <span className="mr-2">{t("home.hero_primary_cta")}</span>
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="/portfolio">
+                <Button size="lg" variant="outline" className="text-lg px-10 py-8 rounded-full border-white/10 hover:bg-white/5 hover:border-primary/50 transition-all hover:scale-105 backdrop-blur-sm">
+                  {t("home.hero_secondary_cta")}
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -203,9 +207,11 @@ export default function Home() {
                   <p className="text-muted-foreground text-lg mb-6 max-w-md">
                     {t("home.services_web_desc")}
                   </p>
-                  <Button variant="ghost" className="group-hover:translate-x-2 transition-transform p-0 hover:bg-transparent">
-                    {t("home.services_web_cta")} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Link href="/services">
+                    <Button variant="ghost" className="group-hover:translate-x-2 transition-transform p-0 hover:bg-transparent">
+                      {t("home.services_web_cta")} <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
               {/* Abstract Visual */}
@@ -250,10 +256,12 @@ export default function Home() {
                  <Video className="h-8 w-8 text-pink-500" />
                  <h4 className="font-bold">Production</h4>
                </motion.div>
-               <motion.div whileHover={{ scale: 1.05 }} className="bg-primary p-6 rounded-2xl flex items-center justify-center cursor-pointer group">
-                 <span className="font-bold text-white mr-2">{t("home.services_all_cta")}</span>
-                 <ArrowRight className="h-5 w-5 text-white group-hover:translate-x-1 transition-transform" />
-               </motion.div>
+               <Link href="/services">
+                 <motion.div whileHover={{ scale: 1.05 }} className="bg-primary p-6 rounded-2xl flex items-center justify-center cursor-pointer group h-full">
+                   <span className="font-bold text-white mr-2">{t("home.services_all_cta")}</span>
+                   <ArrowRight className="h-5 w-5 text-white group-hover:translate-x-1 transition-transform" />
+                 </motion.div>
+               </Link>
             </div>
           </div>
         </div>
@@ -283,7 +291,9 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-bold mb-4">{t("home.featured_title")}</h2>
               <p className="text-muted-foreground text-xl">{t("home.featured_subtitle")}</p>
             </div>
-            <Button variant="outline" className="hidden md:flex">{t("home.view_full_portfolio")}</Button>
+            <Link href="/portfolio">
+              <Button variant="outline" className="hidden md:flex">{t("home.view_full_portfolio")}</Button>
+            </Link>
           </div>
 
           <motion.div 
@@ -308,9 +318,11 @@ export default function Home() {
               <p className="text-slate-300 text-lg md:text-xl max-w-2xl mb-8 line-clamp-3">
                 {t("home.featured_desc")}
               </p>
-              <Button size="lg" className="rounded-full bg-white text-black hover:bg-slate-200">
-                {t("home.featured_cta")}
-              </Button>
+              <Link href="/portfolio">
+                <Button size="lg" className="rounded-full bg-white text-black hover:bg-slate-200">
+                  {t("home.featured_cta")}
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
