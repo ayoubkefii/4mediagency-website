@@ -273,10 +273,10 @@ export default function Home() {
           animate={{ x: isRTL ? ["-50%", "0%"] : ["0%", "-50%"] }}
           transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
         >
-          {t("home.marquee_items").map((item, i) => (
+          {t("home.marquee_items").map((item: string, i: number) => (
             <span key={i}>{item}</span>
           ))}
-          {t("home.marquee_items").map((item, i) => (
+          {t("home.marquee_items").map((item: string, i: number) => (
             <span key={`dup-${i}`}>{item}</span>
           ))}
         </motion.div>

@@ -817,7 +817,6 @@ export const messages = {
       hero_title_highlight: "Réalisations",
       hero_subtitle:
         "Nous laissons nos résultats parler d'eux-mêmes. Explorez nos derniers projets.",
-      filters: ["Tous", "Branding", "Web", "Social", "Apps", "Vidéo"],
       case_badge: "Voir l'Étude de Cas",
       dialog: {
         image_label: "Image du Projet",
@@ -1323,7 +1322,6 @@ export const messages = {
       hero_title_highlight: "المختارة",
       hero_subtitle:
         "ندع نتائجنا تتحدث عنا. استكشف أحدث مشاريعنا.",
-      filters: ["الكل", "الهوية", "ويب", "سوشيال", "تطبيقات", "فيديو"],
       case_badge: "عرض دراسة الحالة",
       dialog: {
         image_label: "صورة المشروع",
