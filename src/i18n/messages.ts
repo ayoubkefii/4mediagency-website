@@ -308,20 +308,92 @@ export const messages = {
     portfolio: {
       hero_title_prefix: "Our",
       hero_title_highlight: "Work",
-      hero_subtitle:
-        "We let our results speak for themselves. Explore our latest projects.",
-      filters: ["All", "Branding", "Web", "Social", "Apps", "Video"],
-      case_badge: "View Case Study",
-      dialog: {
-        image_label: "Project Image",
-        challenge_title: "Challenge & Solution",
-        challenge_desc:
-          "A detailed case study description goes here, explaining the client’s problem and how 4mediagency solved it with innovative strategies and technology.",
-        results_title: "Key Results",
-        visit_site: "Visit Website",
+      hero_subtitle: "We let our results speak for themselves. Explore our latest projects.",
+      gallery_title: "Our Work",
+      gallery_subtitle: "Click on a project to explore",
+      scroll_indicator: "Scroll to explore more",
+      view_case_study: "View Full Case Study",
+      year_label: "Year",
+      client_label: "Client",
+      premium_brand: "Premium Brand",
+      filters: {
+        all: "All Projects",
+        web: "Web Development",
+        branding: "Branding",
+        app: "Mobile Apps",
+        marketing: "Marketing"
       },
-      clients_title: "They trust us",
-      client_placeholder: "CLIENT",
+      stats: {
+        projects: "Projects Completed",
+        clients: "Happy Clients",
+        awards: "Awards Won",
+        satisfaction: "Client Satisfaction"
+      },
+      featured: {
+        badge: "Our Work",
+        title: "Featured",
+        title_highlight: "Projects",
+        subtitle: "Explore our diverse portfolio of successful projects across industries.",
+        view_project: "View Project"
+      },
+      process: {
+        badge: "Our Process",
+        title: "How We",
+        title_highlight: "Work",
+        subtitle: "Our proven methodology ensures exceptional results on every project.",
+        step: "Step",
+        discovery: "Discovery",
+        discovery_desc: "We dive deep into your business, goals, and target audience to understand your unique needs.",
+        strategy: "Strategy",
+        strategy_desc: "We develop a comprehensive roadmap aligned with your objectives and market positioning.",
+        design: "Design",
+        design_desc: "Our creative team crafts stunning visuals that capture your brand essence and engage users.",
+        development: "Development",
+        development_desc: "We build with cutting-edge technology, ensuring performance, security, and scalability.",
+        launch: "Launch",
+        launch_desc: "We deploy your project and provide ongoing support to ensure continued success."
+      },
+      testimonials: {
+        badge: "Testimonials",
+        title: "What Our",
+        title_highlight: "Clients",
+        title_suffix: "Say",
+        subtitle: "Don't just take our word for it - hear from our satisfied clients."
+      },
+      clients: {
+        trusted_by: "Trusted By",
+        industry_leaders: "Industry Leaders"
+      },
+      cta: {
+        title: "Ready to Start Your Project?",
+        subtitle: "Let's collaborate and create something extraordinary together.",
+        start_project: "Start a Project",
+        view_services: "View Services"
+      },
+      projects: {
+        luxury_real_estate: "Luxury Real Estate Platform",
+        luxury_real_estate_desc: "A high-end real estate platform with immersive virtual tours and 3D property visualization.",
+        tech_startup: "Tech Startup Branding",
+        tech_startup_desc: "Complete brand identity for a Silicon Valley AI startup, from logo to brand guidelines.",
+        ecommerce_app: "E-commerce Mobile App",
+        ecommerce_app_desc: "Mobile-first shopping experience with 2M+ downloads and 4.8 star rating.",
+        fashion_editorial: "Fashion Editorial Campaign",
+        fashion_editorial_desc: "Award-winning video campaign for a luxury fashion house with 50M+ views.",
+        fintech_dashboard: "FinTech Dashboard",
+        fintech_dashboard_desc: "Real-time financial analytics dashboard with advanced charting and reporting.",
+        restaurant_rebrand: "Restaurant Chain Rebrand",
+        restaurant_rebrand_desc: "Complete rebrand for a national restaurant chain with 200+ locations.",
+        fitness_app: "Fitness Tracking App",
+        fitness_app_desc: "AI-powered fitness app with personalized workout plans and nutrition tracking.",
+        tourism_campaign: "Tourism Board Campaign",
+        tourism_campaign_desc: "Integrated marketing campaign that increased tourism by 35% year-over-year."
+      },
+      categories: {
+        web_design: "Web Design",
+        branding: "Branding",
+        development: "Development",
+        production: "Production"
+      }
     },
     notFound: {
       title: "System Error: Page Not Found",
@@ -731,6 +803,91 @@ export const messages = {
       },
       clients_title: "Ils nous font confiance",
       client_placeholder: "CLIENT",
+      gallery_title: "Nos Réalisations",
+      gallery_subtitle: "Cliquez sur un projet pour explorer",
+      scroll_indicator: "Défiler pour explorer plus",
+      view_case_study: "Voir l'Étude de Cas",
+      year_label: "Année",
+      client_label: "Client",
+      premium_brand: "Marque Premium",
+      filters: {
+        all: "Tous les Projets",
+        web: "Développement Web",
+        branding: "Branding",
+        app: "Applications Mobiles",
+        marketing: "Marketing"
+      },
+      stats: {
+        projects: "Projets Réalisés",
+        clients: "Clients Satisfaits",
+        awards: "Prix Gagnés",
+        satisfaction: "Satisfaction Client"
+      },
+      featured: {
+        badge: "Nos Réalisations",
+        title: "Projets",
+        title_highlight: "Phares",
+        subtitle: "Explorez notre portfolio diversifié de projets réussis dans différents secteurs.",
+        view_project: "Voir le Projet"
+      },
+      process: {
+        badge: "Notre Processus",
+        title: "Comment Nous",
+        title_highlight: "Travaillons",
+        subtitle: "Notre méthodologie éprouvée garantit des résultats exceptionnels sur chaque projet.",
+        step: "Étape",
+        discovery: "Découverte",
+        discovery_desc: "Nous plongeons au cœur de votre entreprise, vos objectifs et votre audience cible pour comprendre vos besoins uniques.",
+        strategy: "Stratégie",
+        strategy_desc: "Nous développons une feuille de route complète alignée sur vos objectifs et votre positionnement marché.",
+        design: "Design",
+        design_desc: "Notre équipe créative conçoit des visuels époustouflants qui capturent l'essence de votre marque et engagent les utilisateurs.",
+        development: "Développement",
+        development_desc: "Nous construisons avec des technologies de pointe, garantissant performance, sécurité et évolutivité.",
+        launch: "Lancement",
+        launch_desc: "Nous déployons votre projet et fournissons un support continu pour assurer un succès durable."
+      },
+      testimonials: {
+        badge: "Témoignages",
+        title: "Ce Que Nos",
+        title_highlight: "Clients",
+        title_suffix: "Disent",
+        subtitle: "Ne nous croyez pas sur parole - écoutez nos clients satisfaits."
+      },
+      clients: {
+        trusted_by: "Ils Nous Font Confiance",
+        industry_leaders: "Leaders du Secteur"
+      },
+      cta: {
+        title: "Prêt à Démarrer Votre Projet ?",
+        subtitle: "Collaborons et créons ensemble quelque chose d'extraordinaire.",
+        start_project: "Démarrer un Projet",
+        view_services: "Voir les Services"
+      },
+      projects: {
+        luxury_real_estate: "Plateforme Immobilier de Luxe",
+        luxury_real_estate_desc: "Une plateforme immobilière haut de gamme avec visites virtuelles immersives et visualisation 3D.",
+        tech_startup: "Branding Startup Tech",
+        tech_startup_desc: "Identité de marque complète pour une startup IA de Silicon Valley, du logo aux directives de marque.",
+        ecommerce_app: "Application E-commerce Mobile",
+        ecommerce_app_desc: "Expérience d'achat mobile-first avec 2M+ téléchargements et note de 4.8 étoiles.",
+        fashion_editorial: "Campagne Éditoriale Mode",
+        fashion_editorial_desc: "Campagne vidéo primée pour une maison de mode de luxe avec 50M+ vues.",
+        fintech_dashboard: "Tableau de Bord FinTech",
+        fintech_dashboard_desc: "Tableau de bord d'analyse financière en temps réel avec graphiques avancés.",
+        restaurant_rebrand: "Rebranding Chaîne Restaurant",
+        restaurant_rebrand_desc: "Rebranding complet pour une chaîne de restaurants nationale avec 200+ emplacements.",
+        fitness_app: "Application Fitness",
+        fitness_app_desc: "Application fitness alimentée par l'IA avec plans d'entraînement personnalisés.",
+        tourism_campaign: "Campagne Office de Tourisme",
+        tourism_campaign_desc: "Campagne marketing intégrée qui a augmenté le tourisme de 35%."
+      },
+      categories: {
+        web_design: "Design Web",
+        branding: "Branding",
+        development: "Développement",
+        production: "Production"
+      }
     },
     notFound: {
       title: "Erreur Système : Page Non Trouvée",
@@ -1139,6 +1296,91 @@ export const messages = {
       },
       clients_title: "عملاؤنا",
       client_placeholder: "عميل",
+      gallery_title: "أعمالنا",
+      gallery_subtitle: "انقر على مشروع للاستكشاف",
+      scroll_indicator: "مرر للاستكشاف المزيد",
+      view_case_study: "عرض دراسة الحالة",
+      year_label: "السنة",
+      client_label: "العميل",
+      premium_brand: "علامة تجارية متميزة",
+      filters: {
+        all: "جميع المشاريع",
+        web: "تطوير الويب",
+        branding: "الهوية التجارية",
+        app: "تطبيقات الجوال",
+        marketing: "التسويق"
+      },
+      stats: {
+        projects: "مشروع مكتمل",
+        clients: "عميل سعيد",
+        awards: "جائزة",
+        satisfaction: "رضا العملاء"
+      },
+      featured: {
+        badge: "أعمالنا",
+        title: "مشاريع",
+        title_highlight: "مميزة",
+        subtitle: "استكشف محفظتنا المتنوعة من المشاريع الناجحة عبر مختلف الصناعات.",
+        view_project: "عرض المشروع"
+      },
+      process: {
+        badge: "عمليتنا",
+        title: "كيف",
+        title_highlight: "نعمل",
+        subtitle: "منهجيتنا المثبتة تضمن نتائج استثنائية في كل مشروع.",
+        step: "خطوة",
+        discovery: "الاكتشاف",
+        discovery_desc: "نغوص في أعماق عملك وأهدافك وجمهورك المستهدف لفهم احتياجاتك الفريدة.",
+        strategy: "الاستراتيجية",
+        strategy_desc: "نطور خارطة طريق شاملة تتوافق مع أهدافك وموقعك في السوق.",
+        design: "التصميم",
+        design_desc: "فريقنا الإبداعي يصمم مرئيات مذهلة تجسد جوهر علامتك التجارية وتجذب المستخدمين.",
+        development: "التطوير",
+        development_desc: "نبني بأحدث التقنيات، مع ضمان الأداء والأمان وقابلية التوسع.",
+        launch: "الإطلاق",
+        launch_desc: "ننشر مشروعك ونقدم دعماً مستمراً لضمان النجاح المستدام."
+      },
+      testimonials: {
+        badge: "الشهادات",
+        title: "ماذا يقول",
+        title_highlight: "عملاؤنا",
+        title_suffix: "",
+        subtitle: "لا تأخذ كلامنا فقط - استمع إلى عملائنا الراضين."
+      },
+      clients: {
+        trusted_by: "يثقون بنا",
+        industry_leaders: "قادة الصناعة"
+      },
+      cta: {
+        title: "هل أنت مستعد لبدء مشروعك؟",
+        subtitle: "لنتعاون ونبدع معاً شيئاً استثنائياً.",
+        start_project: "ابدأ مشروعاً",
+        view_services: "عرض الخدمات"
+      },
+      projects: {
+        luxury_real_estate: "منصة العقارات الفاخرة",
+        luxury_real_estate_desc: "منصة عقارية راقية مع جولات افتراضية غامرة وتصور ثلاثي الأبعاد للعقارات.",
+        tech_startup: "هوية شركة تقنية ناشئة",
+        tech_startup_desc: "هوية علامة تجارية كاملة لشركة ذكاء اصطناعي ناشئة في وادي السيليكون.",
+        ecommerce_app: "تطبيق تجارة إلكترونية",
+        ecommerce_app_desc: "تجربة تسوق للجوال مع 2 مليون+ تحميل وتقييم 4.8 نجوم.",
+        fashion_editorial: "حملة أزياء تحريرية",
+        fashion_editorial_desc: "حملة فيديو حائزة على جوائز لدار أزياء فاخرة مع 50 مليون+ مشاهدة.",
+        fintech_dashboard: "لوحة تحكم مالية",
+        fintech_dashboard_desc: "لوحة تحليلات مالية في الوقت الحقيقي مع رسوم بيانية متقدمة.",
+        restaurant_rebrand: "إعادة تصميم سلسلة مطاعم",
+        restaurant_rebrand_desc: "إعادة تصميم كاملة لسلسلة مطاعم وطنية مع 200+ موقع.",
+        fitness_app: "تطبيق اللياقة البدنية",
+        fitness_app_desc: "تطبيق لياقة بدنية مدعوم بالذكاء الاصطناعي مع خطط تمرين مخصصة.",
+        tourism_campaign: "حملة هيئة السياحة",
+        tourism_campaign_desc: "حملة تسويقية متكاملة زادت السياحة بنسبة 35%."
+      },
+      categories: {
+        web_design: "تصميم الويب",
+        branding: "الهوية التجارية",
+        development: "التطوير",
+        production: "الإنتاج"
+      }
     },
     notFound: {
       title: "خطأ في النظام: الصفحة غير موجودة",

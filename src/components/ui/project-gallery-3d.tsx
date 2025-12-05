@@ -4,47 +4,53 @@ import { useState, useRef } from "react"
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion"
 import { X, ExternalLink, ArrowLeft, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/i18n/LanguageProvider"
 
-const projects = [
+const projectKeys = [
   {
     id: 1,
-    title: "Luxury Real Estate",
-    category: "Web Design",
+    titleKey: "luxury_real_estate",
+    categoryKey: "web_design",
     image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1200&auto=format&fit=crop",
-    description: "A high-end real estate platform with immersive virtual tours and stunning property visualization.",
     color: "from-blue-600 to-cyan-500"
   },
   {
     id: 2,
-    title: "Tech Startup",
-    category: "Branding",
+    titleKey: "tech_startup",
+    categoryKey: "branding",
     image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop",
-    description: "Complete brand identity for a Silicon Valley AI startup, from logo to brand guidelines.",
     color: "from-purple-600 to-pink-500"
   },
   {
     id: 3,
-    title: "E-commerce App",
-    category: "Development",
+    titleKey: "ecommerce_app",
+    categoryKey: "development",
     image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=1200&auto=format&fit=crop",
-    description: "Mobile-first shopping experience with 2M+ downloads and exceptional user experience.",
     color: "from-orange-600 to-red-500"
   },
   {
     id: 4,
-    title: "Fashion Editorial",
-    category: "Production",
+    titleKey: "fashion_editorial",
+    categoryKey: "production",
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
-    description: "Award-winning video campaign for a luxury fashion house with 50M+ views.",
     color: "from-emerald-600 to-teal-500"
   }
 ]
 
-function Card3D({ project, index, isActive, onClick }: { 
-  project: typeof projects[0], 
+type ProjectData = {
+  id: number
+  title: string
+  category: string
+  description: string
+  image: string
+  color: string
+}
+
+function Card3D({ project, index, onClick, isRTL }: { 
+  project: ProjectData, 
   index: number, 
-  isActive: boolean,
-  onClick: () => void 
+  onClick: () => void,
+  isRTL: boolean
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const x = useMotionValue(0)
@@ -73,7 +79,7 @@ function Card3D({ project, index, isActive, onClick }: {
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 50, rotateY: -15 }}
+      initial={{ opacity: 0, y: 50, rotateY: isRTL ? 15 : -15 }}
       animate={{ opacity: 1, y: 0, rotateY: 0 }}
       transition={{ delay: index * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       style={{
@@ -126,7 +132,7 @@ function Card3D({ project, index, isActive, onClick }: {
         </div>
 
         {/* View Button */}
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0`}>
           <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
             <ExternalLink className="w-5 h-5 text-white" />
           </div>
@@ -136,7 +142,12 @@ function Card3D({ project, index, isActive, onClick }: {
   )
 }
 
-function ProjectModal({ project, onClose }: { project: typeof projects[0] | null, onClose: () => void }) {
+function ProjectModal({ project, onClose, t, isRTL }: { 
+  project: ProjectData | null, 
+  onClose: () => void,
+  t: (key: string) => string,
+  isRTL: boolean
+}) {
   if (!project) return null
 
   return (
@@ -146,6 +157,7 @@ function ProjectModal({ project, onClose }: { project: typeof projects[0] | null
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl"
       onClick={onClose}
+      dir={isRTL ? "rtl" : "ltr"}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
@@ -158,7 +170,7 @@ function ProjectModal({ project, onClose }: { project: typeof projects[0] | null
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+          className={`absolute top-4 ${isRTL ? 'left-4' : 'right-4'} z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors`}
         >
           <X className="w-5 h-5" />
         </button>
@@ -183,14 +195,14 @@ function ProjectModal({ project, onClose }: { project: typeof projects[0] | null
             <p className="text-lg text-slate-400 mb-8">{project.description}</p>
             
             <div className="space-y-4">
-              <div className="flex items-center gap-4 text-sm text-slate-500">
-                <span>Year: 2024</span>
+              <div className={`flex items-center gap-4 text-sm text-slate-500 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span>{t("portfolio.year_label")}: 2024</span>
                 <span>•</span>
-                <span>Client: Premium Brand</span>
+                <span>{t("portfolio.client_label")}: {t("portfolio.premium_brand")}</span>
               </div>
               
               <Button className={`bg-gradient-to-r ${project.color} hover:opacity-90 text-white rounded-full px-8`}>
-                View Full Case Study <ExternalLink className="ml-2 w-4 h-4" />
+                {t("portfolio.view_case_study")} <ExternalLink className={`${isRTL ? 'mr-2' : 'ml-2'} w-4 h-4`} />
               </Button>
             </div>
           </div>
@@ -201,8 +213,20 @@ function ProjectModal({ project, onClose }: { project: typeof projects[0] | null
 }
 
 export function ProjectGallery3D() {
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null)
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const { t, locale } = useLanguage()
+  const isRTL = locale === "ar"
+
+  // Build projects with translated content
+  const projects: ProjectData[] = projectKeys.map(pk => ({
+    id: pk.id,
+    title: t(`portfolio.projects.${pk.titleKey}`),
+    category: t(`portfolio.categories.${pk.categoryKey}`),
+    description: t(`portfolio.projects.${pk.titleKey}_desc`),
+    image: pk.image,
+    color: pk.color
+  }))
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length)
@@ -213,7 +237,7 @@ export function ProjectGallery3D() {
   }
 
   return (
-    <div className="h-full w-full relative bg-gradient-to-br from-slate-950 via-slate-900 to-black overflow-hidden">
+    <div className="h-full w-full relative bg-gradient-to-br from-slate-950 via-slate-900 to-black overflow-hidden" dir={isRTL ? "rtl" : "ltr"}>
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
@@ -246,7 +270,7 @@ export function ProjectGallery3D() {
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-7xl lg:text-8xl font-black text-white/10 uppercase tracking-tighter"
         >
-          Our Work
+          {t("portfolio.gallery_title")}
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
@@ -254,20 +278,20 @@ export function ProjectGallery3D() {
           transition={{ delay: 0.2 }}
           className="text-slate-400 mt-2 md:mt-4 text-sm md:text-base"
         >
-          Click on a project to explore
+          {t("portfolio.gallery_subtitle")}
         </motion.p>
       </div>
 
       {/* Cards Container - Desktop Grid */}
       <div className="hidden md:flex absolute inset-0 items-center justify-center" style={{ perspective: "1500px" }}>
-        <div className="flex gap-6 lg:gap-8 px-4">
+        <div className={`flex gap-6 lg:gap-8 px-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {projects.map((project, index) => (
             <div key={project.id} className="w-[220px] lg:w-[280px]">
               <Card3D 
                 project={project} 
                 index={index}
-                isActive={selectedProject?.id === project.id}
                 onClick={() => setSelectedProject(project)}
+                isRTL={isRTL}
               />
             </div>
           ))}
@@ -279,17 +303,17 @@ export function ProjectGallery3D() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, x: 100, rotateY: 20 }}
+            initial={{ opacity: 0, x: isRTL ? -100 : 100, rotateY: isRTL ? -20 : 20 }}
             animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            exit={{ opacity: 0, x: -100, rotateY: -20 }}
+            exit={{ opacity: 0, x: isRTL ? 100 : -100, rotateY: isRTL ? 20 : -20 }}
             transition={{ duration: 0.4 }}
             className="w-full max-w-[300px]"
           >
             <Card3D 
               project={projects[currentIndex]} 
               index={0}
-              isActive={false}
               onClick={() => setSelectedProject(projects[currentIndex])}
+              isRTL={isRTL}
             />
           </motion.div>
         </AnimatePresence>
@@ -299,7 +323,7 @@ export function ProjectGallery3D() {
           <Button
             variant="outline"
             size="icon"
-            onClick={prevSlide}
+            onClick={isRTL ? nextSlide : prevSlide}
             className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -321,7 +345,7 @@ export function ProjectGallery3D() {
           <Button
             variant="outline"
             size="icon"
-            onClick={nextSlide}
+            onClick={isRTL ? prevSlide : nextSlide}
             className="rounded-full bg-white/10 border-white/20 text-white hover:bg-white/20"
           >
             <ArrowRight className="w-5 h-5" />
@@ -334,7 +358,9 @@ export function ProjectGallery3D() {
         {selectedProject && (
           <ProjectModal 
             project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
+            onClose={() => setSelectedProject(null)}
+            t={t}
+            isRTL={isRTL}
           />
         )}
       </AnimatePresence>

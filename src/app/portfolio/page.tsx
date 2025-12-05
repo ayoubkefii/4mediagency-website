@@ -24,89 +24,19 @@ import {
 import Link from "next/link"
 import { useLanguage } from "@/i18n/LanguageProvider"
 
-// Extended project data
-const allProjects = [
-  {
-    id: 1,
-    title: "Luxury Real Estate Platform",
-    category: "web",
-    image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop",
-    description: "A high-end real estate platform with immersive virtual tours and 3D property visualization.",
-    tags: ["Next.js", "Three.js", "Tailwind"],
-    year: "2024"
-  },
-  {
-    id: 2,
-    title: "Tech Startup Branding",
-    category: "branding",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop",
-    description: "Complete brand identity for a Silicon Valley AI startup, from logo to brand guidelines.",
-    tags: ["Logo Design", "Brand Strategy", "Guidelines"],
-    year: "2024"
-  },
-  {
-    id: 3,
-    title: "E-commerce Mobile App",
-    category: "app",
-    image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=800&auto=format&fit=crop",
-    description: "Mobile-first shopping experience with 2M+ downloads and 4.8 star rating.",
-    tags: ["React Native", "Firebase", "Stripe"],
-    year: "2024"
-  },
-  {
-    id: 4,
-    title: "Fashion Editorial Campaign",
-    category: "marketing",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop",
-    description: "Award-winning video campaign for a luxury fashion house with 50M+ views.",
-    tags: ["Video Production", "Social Media", "Influencer"],
-    year: "2023"
-  },
-  {
-    id: 5,
-    title: "FinTech Dashboard",
-    category: "web",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
-    description: "Real-time financial analytics dashboard with advanced charting and reporting.",
-    tags: ["React", "D3.js", "WebSocket"],
-    year: "2024"
-  },
-  {
-    id: 6,
-    title: "Restaurant Chain Rebrand",
-    category: "branding",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop",
-    description: "Complete rebrand for a national restaurant chain with 200+ locations.",
-    tags: ["Brand Identity", "Packaging", "Signage"],
-    year: "2023"
-  },
-  {
-    id: 7,
-    title: "Fitness Tracking App",
-    category: "app",
-    image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=800&auto=format&fit=crop",
-    description: "AI-powered fitness app with personalized workout plans and nutrition tracking.",
-    tags: ["Flutter", "ML Kit", "HealthKit"],
-    year: "2024"
-  },
-  {
-    id: 8,
-    title: "Tourism Board Campaign",
-    category: "marketing",
-    image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop",
-    description: "Integrated marketing campaign that increased tourism by 35% year-over-year.",
-    tags: ["Digital Ads", "Content", "PR"],
-    year: "2023"
-  },
+// Project keys for translation
+const allProjectKeys = [
+  { id: 1, key: "luxury_real_estate", category: "web", tags: ["Next.js", "Three.js", "Tailwind"], year: "2024", image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=800&auto=format&fit=crop" },
+  { id: 2, key: "tech_startup", category: "branding", tags: ["Logo Design", "Brand Strategy", "Guidelines"], year: "2024", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" },
+  { id: 3, key: "ecommerce_app", category: "app", tags: ["React Native", "Firebase", "Stripe"], year: "2024", image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=800&auto=format&fit=crop" },
+  { id: 4, key: "fashion_editorial", category: "marketing", tags: ["Video Production", "Social Media", "Influencer"], year: "2023", image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop" },
+  { id: 5, key: "fintech_dashboard", category: "web", tags: ["React", "D3.js", "WebSocket"], year: "2024", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" },
+  { id: 6, key: "restaurant_rebrand", category: "branding", tags: ["Brand Identity", "Packaging", "Signage"], year: "2023", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" },
+  { id: 7, key: "fitness_app", category: "app", tags: ["Flutter", "ML Kit", "HealthKit"], year: "2024", image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=800&auto=format&fit=crop" },
+  { id: 8, key: "tourism_campaign", category: "marketing", tags: ["Digital Ads", "Content", "PR"], year: "2023", image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop" },
 ]
 
-const categories = [
-  { key: "all", label: "All Projects" },
-  { key: "web", label: "Web Development" },
-  { key: "branding", label: "Branding" },
-  { key: "app", label: "Mobile Apps" },
-  { key: "marketing", label: "Marketing" },
-]
+const categoryKeys = ["all", "web", "branding", "app", "marketing"]
 
 const clients = [
   { name: "TechCorp", logo: "TC" },
@@ -119,49 +49,18 @@ const clients = [
   { name: "TravelGo", logo: "TG" },
 ]
 
-const stats = [
-  { number: "50+", label: "Projects Completed", icon: FolderOpen },
-  { number: "35+", label: "Happy Clients", icon: Users },
-  { number: "12", label: "Awards Won", icon: Award },
-  { number: "98%", label: "Client Satisfaction", icon: TrendingUp },
-]
+const statIcons = [FolderOpen, Users, Award, TrendingUp]
+const statNumbers = ["50+", "35+", "12", "98%"]
+const statKeys = ["projects", "clients", "awards", "satisfaction"]
 
-const processSteps = [
-  { 
-    step: 1, 
-    title: "Discovery", 
-    description: "We dive deep into your business, goals, and target audience to understand your unique needs.",
-    icon: Lightbulb,
-    color: "from-blue-500 to-cyan-500"
-  },
-  { 
-    step: 2, 
-    title: "Strategy", 
-    description: "We develop a comprehensive roadmap aligned with your objectives and market positioning.",
-    icon: Target,
-    color: "from-purple-500 to-pink-500"
-  },
-  { 
-    step: 3, 
-    title: "Design", 
-    description: "Our creative team crafts stunning visuals that capture your brand essence and engage users.",
-    icon: Palette,
-    color: "from-orange-500 to-red-500"
-  },
-  { 
-    step: 4, 
-    title: "Development", 
-    description: "We build with cutting-edge technology, ensuring performance, security, and scalability.",
-    icon: Code2,
-    color: "from-green-500 to-emerald-500"
-  },
-  { 
-    step: 5, 
-    title: "Launch", 
-    description: "We deploy your project and provide ongoing support to ensure continued success.",
-    icon: Rocket,
-    color: "from-primary to-secondary"
-  },
+const processIcons = [Lightbulb, Target, Palette, Code2, Rocket]
+const processKeys = ["discovery", "strategy", "design", "development", "launch"]
+const processColors = [
+  "from-blue-500 to-cyan-500",
+  "from-purple-500 to-pink-500",
+  "from-orange-500 to-red-500",
+  "from-green-500 to-emerald-500",
+  "from-primary to-secondary"
 ]
 
 const testimonials = [
@@ -190,14 +89,22 @@ const testimonials = [
 
 export default function PortfolioPage() {
   const [activeFilter, setActiveFilter] = useState("all")
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
+  const isRTL = locale === "ar"
+
+  // Build translated projects
+  const allProjects = allProjectKeys.map(p => ({
+    ...p,
+    title: t(`portfolio.projects.${p.key}`),
+    description: t(`portfolio.projects.${p.key}_desc`)
+  }))
 
   const filteredProjects = activeFilter === "all" 
     ? allProjects 
     : allProjects.filter(p => p.category === activeFilter)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={isRTL ? "rtl" : "ltr"}>
       {/* 3D Gallery Section */}
       <section className="relative h-screen">
         <ProjectGallery3D />
@@ -209,7 +116,7 @@ export default function PortfolioPage() {
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
         >
           <div className="flex flex-col items-center text-white/60 animate-bounce">
-            <span className="text-sm mb-2">Scroll to explore more</span>
+            <span className="text-sm mb-2">{t("portfolio.scroll_indicator")}</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
@@ -221,8 +128,8 @@ export default function PortfolioPage() {
       <section className="py-16 bg-gradient-to-b from-black to-background">
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon
+            {statKeys.map((key, index) => {
+              const Icon = statIcons[index]
               return (
                 <motion.div
                   key={index}
@@ -236,9 +143,9 @@ export default function PortfolioPage() {
                     <Icon className="h-7 w-7 text-primary" />
                   </div>
                   <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    {stat.number}
+                    {statNumbers[index]}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{t(`portfolio.stats.${key}`)}</div>
                 </motion.div>
               )
             })}
@@ -256,12 +163,12 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <Badge variant="outline" className="mb-4">Our Work</Badge>
+            <Badge variant="outline" className="mb-4">{t("portfolio.featured.badge")}</Badge>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-              Featured <span className="text-primary">Projects</span>
+              {t("portfolio.featured.title")} <span className="text-primary">{t("portfolio.featured.title_highlight")}</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Explore our diverse portfolio of successful projects across industries.
+              {t("portfolio.featured.subtitle")}
             </p>
           </motion.div>
 
@@ -272,18 +179,18 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className="flex flex-wrap justify-center gap-2 mb-12"
           >
-            {categories.map((cat) => (
+            {categoryKeys.map((key) => (
               <Button
-                key={cat.key}
-                variant={activeFilter === cat.key ? "default" : "outline"}
-                onClick={() => setActiveFilter(cat.key)}
+                key={key}
+                variant={activeFilter === key ? "default" : "outline"}
+                onClick={() => setActiveFilter(key)}
                 className={`rounded-full transition-all ${
-                  activeFilter === cat.key 
+                  activeFilter === key 
                     ? "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25" 
                     : "hover:bg-muted"
                 }`}
               >
-                {cat.label}
+                {t(`portfolio.filters.${key}`)}
               </Button>
             ))}
           </motion.div>
@@ -313,12 +220,12 @@ export default function PortfolioPage() {
                       {/* Overlay Content */}
                       <div className="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
                         <Button size="sm" className="bg-white text-black hover:bg-white/90 rounded-full">
-                          View Project <ExternalLink className="ml-2 h-3 w-3" />
+                          {t("portfolio.featured.view_project")} <ExternalLink className={`${isRTL ? 'mr-2' : 'ml-2'} h-3 w-3`} />
                         </Button>
                       </div>
 
                       {/* Year Badge */}
-                      <div className="absolute top-3 right-3">
+                      <div className={`absolute top-3 ${isRTL ? 'left-3' : 'right-3'}`}>
                         <Badge variant="secondary" className="bg-black/50 backdrop-blur-sm text-white border-0">
                           {project.year}
                         </Badge>
@@ -366,22 +273,22 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Badge variant="outline" className="mb-4 border-white/20 text-white">Our Process</Badge>
+            <Badge variant="outline" className="mb-4 border-white/20 text-white">{t("portfolio.process.badge")}</Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4">
-              How We <span className="text-secondary">Work</span>
+              {t("portfolio.process.title")} <span className="text-secondary">{t("portfolio.process.title_highlight")}</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              Our proven methodology ensures exceptional results on every project.
+              {t("portfolio.process.subtitle")}
             </p>
           </motion.div>
 
           {/* Process Steps */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-2">
-            {processSteps.map((step, index) => {
-              const Icon = step.icon
+            {processKeys.map((key, index) => {
+              const Icon = processIcons[index]
               return (
                 <motion.div
-                  key={step.step}
+                  key={key}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -389,28 +296,28 @@ export default function PortfolioPage() {
                   className="relative"
                 >
                   {/* Connector Line */}
-                  {index < processSteps.length - 1 && (
-                    <div className="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-white/20 to-transparent" />
+                  {index < processKeys.length - 1 && (
+                    <div className={`hidden md:block absolute top-10 ${isRTL ? 'right-[60%]' : 'left-[60%]'} w-full h-0.5 bg-gradient-to-r from-white/20 to-transparent`} />
                   )}
 
                   <div className="text-center group">
                     {/* Icon */}
                     <motion.div 
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${step.color} shadow-lg mb-4`}
+                      className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${processColors[index]} shadow-lg mb-4`}
                     >
                       <Icon className="h-9 w-9 text-white" />
                     </motion.div>
 
                     {/* Step Number */}
-                    <div className="text-sm font-bold text-primary mb-1">Step {step.step}</div>
+                    <div className="text-sm font-bold text-primary mb-1">{t("portfolio.process.step")} {index + 1}</div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                    <h3 className="text-xl font-bold mb-2">{t(`portfolio.process.${key}`)}</h3>
 
                     {/* Description */}
                     <p className="text-sm text-slate-400 leading-relaxed">
-                      {step.description}
+                      {t(`portfolio.process.${key}_desc`)}
                     </p>
                   </div>
                 </motion.div>
@@ -429,12 +336,12 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Badge variant="outline" className="mb-4">Testimonials</Badge>
+            <Badge variant="outline" className="mb-4">{t("portfolio.testimonials.badge")}</Badge>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-              What Our <span className="text-secondary">Clients</span> Say
+              {t("portfolio.testimonials.title")} <span className="text-secondary">{t("portfolio.testimonials.title_highlight")}</span> {t("portfolio.testimonials.title_suffix")}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Don&apos;t just take our word for it - hear from our satisfied clients.
+              {t("portfolio.testimonials.subtitle")}
             </p>
           </motion.div>
 
@@ -465,13 +372,13 @@ export default function PortfolioPage() {
                     </p>
 
                     {/* Author */}
-                    <div className="flex items-center gap-3">
+                    <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                       <img
                         src={testimonial.image}
                         alt={testimonial.author}
                         className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
                       />
-                      <div>
+                      <div className={isRTL ? 'text-right' : ''}>
                         <div className="font-semibold">{testimonial.author}</div>
                         <div className="text-sm text-muted-foreground">{testimonial.role}</div>
                       </div>
@@ -493,8 +400,8 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <p className="text-sm text-muted-foreground uppercase tracking-widest mb-2">Trusted By</p>
-            <h3 className="text-2xl font-bold">Industry Leaders</h3>
+            <p className="text-sm text-muted-foreground uppercase tracking-widest mb-2">{t("portfolio.clients.trusted_by")}</p>
+            <h3 className="text-2xl font-bold">{t("portfolio.clients.industry_leaders")}</h3>
           </motion.div>
 
           {/* Client Logos */}
@@ -533,20 +440,20 @@ export default function PortfolioPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
-              Ready to Start Your Project?
+              {t("portfolio.cta.title")}
             </h2>
             <p className="text-xl text-white/80 mb-8">
-              Let&apos;s collaborate and create something extraordinary together.
+              {t("portfolio.cta.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
-                  Start a Project <ArrowRight className="ml-2 h-5 w-5" />
+                  {t("portfolio.cta.start_project")} <ArrowRight className={`${isRTL ? 'mr-2' : 'ml-2'} h-5 w-5`} />
                 </Button>
               </Link>
               <Link href="/services">
                 <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 rounded-full px-8">
-                  View Services
+                  {t("portfolio.cta.view_services")}
                 </Button>
               </Link>
             </div>
