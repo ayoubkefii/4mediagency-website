@@ -8,7 +8,8 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/i18n/LanguageProvider"
-import { VideoTestimonials } from "@/components/ui/video-testimonials"
+import { Star, Quote } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -328,8 +329,75 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Testimonials Section */}
-      <VideoTestimonials />
+      {/* Testimonials Section */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="container px-4 md:px-6 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Badge variant="outline" className="mb-4">{t("portfolio.testimonials.badge")}</Badge>
+            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+              {t("home.testimonials_title")} <span className="text-primary">{t("home.testimonials_highlight")}</span> {t("home.testimonials_suffix")}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {t("home.testimonials_subtitle")}
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[1, 2, 3].map((num, index) => (
+              <motion.div
+                key={num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.15, duration: 0.5 }}
+              >
+                <Card className="h-full bg-white dark:bg-slate-800 border-none shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
+                  <CardContent className="p-8">
+                    {/* Quote Icon */}
+                    <div className="mb-6">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Quote className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+
+                    {/* Rating */}
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+
+                    {/* Quote */}
+                    <p className="text-foreground mb-6 leading-relaxed text-lg">
+                      &ldquo;{t(`home.testimonial_${num}_quote`)}&rdquo;
+                    </p>
+
+                    {/* Author */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg">
+                        {t(`home.testimonial_${num}_author`).charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-bold text-foreground">{t(`home.testimonial_${num}_author`)}</div>
+                        <div className="text-sm text-muted-foreground">{t(`home.testimonial_${num}_role`)}</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-32 bg-slate-950 text-white relative overflow-hidden">
