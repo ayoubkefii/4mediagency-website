@@ -112,7 +112,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              >
+            >
               <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
               <div className={`md:flex items-start justify-between ${index % 2 === 0 ? 'flex-row-reverse' : ''} md:gap-16`}>
                  <div className="hidden md:block w-1/2" /> {/* Spacer for alternating layout - simplified for now, actually standard vertical list is better for mobile first responsiveness without complex logic */}
