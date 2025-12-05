@@ -166,7 +166,7 @@ export function ProjectGallery3D() {
   }
 
   return (
-    <div className="h-screen w-full relative bg-black">
+    <div className="h-full w-full relative bg-black">
       {/* Loading Overlay */}
       <LoadingOverlay isLoading={isLoading} />
 
