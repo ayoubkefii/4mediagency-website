@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { CustomCursor } from "@/components/ui/custom-cursor"
 import { ScrollProgress } from "@/components/ui/scroll-progress"
 import { BackToTop } from "@/components/ui/back-to-top"
+import { WhatsAppButton } from "@/components/ui/whatsapp-button"
+import { FAQChatbot } from "@/components/ui/faq-chatbot"
 import { LanguageProvider } from "@/i18n/LanguageProvider"
 
 const geistSans = Geist({
@@ -44,6 +46,8 @@ export default function RootLayout({
             <CustomCursor />
             <ScrollProgress />
             <BackToTop />
+            <WhatsAppButton />
+            <FAQChatbot />
             <Navbar />
             <main className="min-h-screen pt-16">
               {children}

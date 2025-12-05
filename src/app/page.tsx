@@ -8,6 +8,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/i18n/LanguageProvider"
+import { VideoTestimonials } from "@/components/ui/video-testimonials"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -198,182 +199,142 @@ export default function Home() {
                   <Globe className="h-8 w-8" />
                 </div>
                 <div>
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4">{t("home.services_web_title")}</h3>
-                  <p className="text-muted-foreground text-lg mb-6">{t("home.services_web_desc")}</p>
-                  <Button variant="link" className="p-0 text-primary text-lg group-hover:translate-x-2 transition-transform">
-                    {t("home.services_web_cta")} <ArrowRight className="ml-2 h-5 w-5" />
+                  <h3 className="text-3xl font-bold mb-4">{t("home.services_web_title")}</h3>
+                  <p className="text-muted-foreground text-lg mb-6 max-w-md">
+                    {t("home.services_web_desc")}
+                  </p>
+                  <Button variant="ghost" className="group-hover:translate-x-2 transition-transform p-0 hover:bg-transparent">
+                    {t("home.services_web_cta")} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
-              <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-primary/30 blur-[80px] rounded-full" />
-            </motion.div>
-
-            {/* Small Cards */}
-            {[
-              { key: "services_branding", icon: PenTool, color: "text-secondary", bg: "bg-secondary/10" },
-              { key: "services_marketing", icon: BarChart, color: "text-primary", bg: "bg-primary/10" },
-            ].map((service, i) => (
-              <motion.div 
-                key={i}
-                className="relative group overflow-hidden rounded-3xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 flex flex-col justify-between min-h-[250px]"
-                whileHover={{ y: -10 }}
-              >
-                 <div className={`${service.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${service.color}`}>
-                    <service.icon className="h-7 w-7" />
-                 </div>
-                 <div>
-                   <h3 className="text-2xl font-bold mb-2">{t(`home.${service.key}`)}</h3>
-                   <ArrowRight className="h-6 w-6 text-muted-foreground group-hover:text-foreground group-hover:translate-x-2 transition-all" />
-                 </div>
-              </motion.div>
-            ))}
-
-            {/* Medium Cards */}
-            {[
-               { titleKey: "services_cyber_title", descKey: "services_cyber_desc", icon: Shield, color: "text-secondary", bg: "bg-secondary/10" },
-               { titleKey: "services_apps_title", descKey: "services_apps_desc", icon: Smartphone, color: "text-primary", bg: "bg-primary/10" },
-            ].map((service, i) => (
-               <motion.div 
-                key={i}
-                className="relative group overflow-hidden rounded-3xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 flex flex-col justify-center min-h-[250px]"
-                whileHover={{ scale: 1.02 }}
-               >
-                 <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-100 transition-opacity group-hover:scale-110 duration-500">
-                    <service.icon className={`h-32 w-32 ${service.color}`} />
-                 </div>
-                 <div className="relative z-10">
-                  <h3 className="text-2xl font-bold mb-2">{t(`home.${service.titleKey}`)}</h3>
-                  <p className="text-muted-foreground">{t(`home.${service.descKey}`)}</p>
-                 </div>
-               </motion.div>
-            ))}
-          </div>
-          
-          <div className="flex justify-center mt-16">
-            <Link href="/services">
-              <Button size="lg" variant="ghost" className="text-xl hover:bg-transparent hover:text-primary transition-colors">
-                {t("home.services_all_cta")} <ArrowRight className="ml-2 h-6 w-6" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Infinite Marquee Section */}
-      <section className="py-10 bg-primary text-white overflow-hidden">
-        <div className="flex whitespace-nowrap">
-          {[0, 1].map((row) => (
-            <motion.div
-              key={row}
-              className={`flex gap-20 items-center text-4xl font-black tracking-widest ${
-                // Uppercase looks bad for Arabic, keep it only for LTR
-                isRTL ? "" : "uppercase"
-              }`}
-              animate={{
-                x: isRTL ? ["0%", "100%"] : ["0%", "-100%"],
-              }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex gap-20">
-                  {t("home.marquee_items.0") && (
-                    <>
-                      <span>{t("home.marquee_items.0")}</span>
-                      <span>{t("home.marquee_items.1")}</span>
-                      <span>{t("home.marquee_items.2")}</span>
-                      <span>{t("home.marquee_items.3")}</span>
-                      <span>{t("home.marquee_items.4")}</span>
-                    </>
-                  )}
-                </div>
-              ))}
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Work - Parallax */}
-      <section className="py-32 bg-background">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-6xl font-bold">{t("home.featured_title")}</h2>
-              <p className="text-muted-foreground max-w-2xl text-xl">
-                {t("home.featured_subtitle")}
-              </p>
-            </div>
-            <Button variant="outline" className="rounded-full px-8 py-6 text-lg">
-              {t("home.view_full_portfolio")}
-            </Button>
-          </div>
-
-          <div className="space-y-32">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="group grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                 <motion.div 
-                   className={`order-2 ${i % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}
-                   initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ duration: 0.8 }}
-                 >
-                    <h3 className="text-4xl font-bold mb-4">
-                      {t("home.featured_project_name")} {i}
-                    </h3>
-                    <div className="flex gap-2 mb-6">
-                      <Badge variant="secondary">{t("home.featured_badge_web")}</Badge>
-                      <Badge variant="outline">{t("home.featured_badge_dev")}</Badge>
-                    </div>
-                    <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-                      {t("home.featured_desc")}
-                    </p>
-                    <Button variant="link" className="text-primary p-0 text-lg group-hover:translate-x-2 transition-transform">
-                      {t("home.featured_cta")} <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                 </motion.div>
-                 
-                 <motion.div 
-                   className={`relative aspect-[4/3] rounded-3xl overflow-hidden bg-muted order-1 ${i % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}
-                   whileHover={{ scale: 0.98 }}
-                 >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${i % 2 === 0 ? 'from-blue-500/20' : 'from-orange-500/20'} to-transparent`} />
-                    {/* Placeholder for Image */}
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/20 text-6xl font-black">
-                       IMG {i}
-                    </div>
-                 </motion.div>
+              {/* Abstract Visual */}
+              <div className="absolute right-0 bottom-0 w-1/2 h-full opacity-20 dark:opacity-10 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-slate-100 dark:to-slate-900 z-10" />
+                {/* Placeholder for 3D Element or Image */}
+                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop')] bg-cover bg-center" />
               </div>
-            ))}
+            </motion.div>
+
+            {/* Branding Card */}
+            <motion.div 
+              className="relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-8"
+              whileHover={{ y: -5 }}
+            >
+              <PenTool className="h-10 w-10 text-secondary mb-6" />
+              <h3 className="text-2xl font-bold mb-2">{t("home.services_branding")}</h3>
+              <p className="text-muted-foreground">Identity & Strategy</p>
+            </motion.div>
+
+            {/* Marketing Card */}
+            <motion.div 
+              className="relative group overflow-hidden rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-8"
+              whileHover={{ y: -5 }}
+            >
+              <BarChart className="h-10 w-10 text-green-500 mb-6" />
+              <h3 className="text-2xl font-bold mb-2">{t("home.services_marketing")}</h3>
+              <p className="text-muted-foreground">SEO & Growth</p>
+            </motion.div>
+
+            {/* More Services... */}
+            <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+               <motion.div whileHover={{ scale: 1.05 }} className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center justify-center gap-4">
+                 <Shield className="h-8 w-8 text-red-500" />
+                 <h4 className="font-bold">{t("home.services_cyber_title")}</h4>
+               </motion.div>
+               <motion.div whileHover={{ scale: 1.05 }} className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center justify-center gap-4">
+                 <Smartphone className="h-8 w-8 text-purple-500" />
+                 <h4 className="font-bold">{t("home.services_apps_title")}</h4>
+               </motion.div>
+               <motion.div whileHover={{ scale: 1.05 }} className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center justify-center gap-4">
+                 <Video className="h-8 w-8 text-pink-500" />
+                 <h4 className="font-bold">Production</h4>
+               </motion.div>
+               <motion.div whileHover={{ scale: 1.05 }} className="bg-primary p-6 rounded-2xl flex items-center justify-center cursor-pointer group">
+                 <span className="font-bold text-white mr-2">{t("home.services_all_cta")}</span>
+                 <ArrowRight className="h-5 w-5 text-white group-hover:translate-x-1 transition-transform" />
+               </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Neon */}
-      <section className="py-40 relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-black">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent opacity-50" />
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
-        </div>
-        
-        <div className="container px-4 md:px-6 relative z-10 text-center space-y-10">
-          <motion.h2 
-            className="text-5xl md:text-8xl font-black text-white tracking-tighter"
-            initial={{ opacity: 0, scale: 0.9 }}
+      {/* Infinite Marquee */}
+      <div className="py-10 bg-black overflow-hidden flex whitespace-nowrap">
+        <motion.div 
+          className="flex gap-20 items-center text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-800 dark:to-slate-600 uppercase tracking-widest opacity-50"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+        >
+          {t("home.marquee_items").map((item, i) => (
+            <span key={i}>{item}</span>
+          ))}
+           {t("home.marquee_items").map((item, i) => (
+            <span key={`dup-${i}`}>{item}</span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Featured Project - Immersive */}
+      <section className="py-32 relative overflow-hidden">
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-end mb-16">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-bold mb-4">{t("home.featured_title")}</h2>
+              <p className="text-muted-foreground text-xl">{t("home.featured_subtitle")}</p>
+            </div>
+            <Button variant="outline" className="hidden md:flex">{t("home.view_full_portfolio")}</Button>
+          </div>
+
+          <motion.div 
+            className="relative aspect-video rounded-3xl overflow-hidden group cursor-pointer"
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            {t("home.cta_title_prefix")}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              {t("home.cta_title_highlight")}
-            </span>
-          </motion.h2>
-          <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
-            {t("home.cta_subtitle")}
-          </p>
-          <Button size="lg" className="bg-white text-black hover:bg-slate-200 text-xl px-12 py-8 rounded-full shadow-[0_0_50px_-10px_rgba(255,255,255,0.5)] hover:shadow-[0_0_70px_-10px_rgba(255,255,255,0.7)] transition-all hover:-translate-y-1">
-            {t("home.cta_button")}
-          </Button>
+            <div className="absolute inset-0 bg-slate-900" />
+            {/* Project Image Placeholder */}
+             <div 
+              className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-40 transition-opacity duration-700 scale-105 group-hover:scale-100"
+              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop')" }}
+            />
+            
+            <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end items-start z-20">
+              <div className="flex gap-4 mb-6">
+                <Badge className="bg-white text-black hover:bg-white/90">{t("home.featured_badge_web")}</Badge>
+                <Badge variant="outline" className="text-white border-white/30">{t("home.featured_badge_dev")}</Badge>
+              </div>
+              <h3 className="text-4xl md:text-7xl font-bold text-white mb-6">{t("home.featured_project_name")}</h3>
+              <p className="text-slate-300 text-lg md:text-xl max-w-2xl mb-8 line-clamp-3">
+                {t("home.featured_desc")}
+              </p>
+              <Button size="lg" className="rounded-full bg-white text-black hover:bg-slate-200">
+                {t("home.featured_cta")}
+              </Button>
+            </div>
+          </motion.div>
         </div>
+      </section>
+
+      {/* Video Testimonials Section */}
+      <VideoTestimonials />
+
+      {/* CTA Section */}
+      <section className="py-32 bg-slate-950 text-white relative overflow-hidden">
+         {/* Confetti/Particles Effect could go here */}
+         <div className="container px-4 md:px-6 text-center relative z-10">
+           <h2 className="text-5xl md:text-8xl font-black mb-8 tracking-tighter">
+             {t("home.cta_title_prefix")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">{t("home.cta_title_highlight")}</span>
+           </h2>
+           <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12">
+             {t("home.cta_subtitle")}
+           </p>
+           <Link href="/contact">
+            <Button size="lg" className="text-xl px-12 py-8 rounded-full bg-white text-black hover:bg-slate-200 shadow-2xl shadow-white/10">
+              {t("home.cta_button")}
+            </Button>
+           </Link>
+         </div>
       </section>
     </div>
   )

@@ -62,7 +62,7 @@ git init
 git add .
 
 # Commit everything
-git commit -m "Add complete project files and deployment guides"
+git commit -m "test"
 
 # Connect to your GitHub repository (replace YOUR_USERNAME and REPO_NAME)
 git remote add origin https://github.com/ayoubkefii/4mediagency-website.git

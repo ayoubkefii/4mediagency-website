@@ -1003,7 +1003,7 @@ export const messages = {
 
 export type AppMessages = Messages[Locale]
 
-export function getMessage(locale: Locale, key: string): string {
+export function getMessage(locale: Locale, key: string): any {
   const parts = key.split(".")
   let current: any = messages[locale]
 
@@ -1015,7 +1015,7 @@ export function getMessage(locale: Locale, key: string): string {
     }
   }
 
-  return typeof current === "string" ? current : key
+  return current !== undefined ? current : key
 }
 
 

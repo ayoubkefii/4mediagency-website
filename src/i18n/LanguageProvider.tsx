@@ -14,7 +14,7 @@ import { DEFAULT_LOCALE, LOCALES, Locale, getMessage } from "./messages"
 type LanguageContextValue = {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: (key: string) => string
+  t: (key: string) => any
   availableLocales: Locale[]
 }
 
