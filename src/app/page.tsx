@@ -3,13 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, CheckCircle, Zap, Globe, Smartphone, PenTool, BarChart, Shield, Video, MousePointer2, LayoutGrid, MessageSquare, ChevronDown } from "lucide-react"
+import { ArrowRight, CheckCircle, Zap, Globe, Smartphone, PenTool, BarChart, Shield, Video, MousePointer2, LayoutGrid, MessageSquare, ChevronDown, Star, Quote } from "lucide-react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/i18n/LanguageProvider"
-import { Star, Quote } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
